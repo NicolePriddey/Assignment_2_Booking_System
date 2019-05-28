@@ -13,7 +13,7 @@ public class Connect {
 		System.out.println("Hello world");
 		
 		try {
-			MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://nicole:M@ngoDb1@priddey-8mqsj.mongodb.net/test?retryWrites=true"));
+			MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://nicole:M@ngoDb1@priddey-8mqsj.mongodb.net/test?retryWrites=true"));
 			DB database = mongoClient.getDB("sample_mflix");
 			DBCollection collection = database.getCollection("movies");
 			DBObject query = new BasicDBObject("plot", "Three men hammer on an anvil and pass a bottle of beer around.");

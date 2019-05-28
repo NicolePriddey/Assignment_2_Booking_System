@@ -499,3 +499,7 @@ org.apache.maven.archetype.exception.ArchetypeGenerationFailure: The defined art
 2019-05-28 13:47:49,581 [Worker-28: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Nicole\Documents\GitHub\Assignment_2_Booking_System\BookingSystem\src\main\resources
 2019-05-28 13:47:49,582 [Worker-28: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2019-05-28 13:47:49,590 [Worker-28: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Nicole\Documents\GitHub\Assignment_2_Booking_System\BookingSystem\src\test\resources
+2019-05-28 13:53:31,688 [Worker-25: Launching Connect] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-05-28 13:53:31,688 [Worker-25: Launching Connect] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Nicole\Documents\GitHub\Assignment_2_Booking_System\BookingSystem\src\main\resources
+2019-05-28 13:53:31,694 [Worker-25: Launching Connect] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2019-05-28 13:53:31,700 [Worker-25: Launching Connect] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Nicole\Documents\GitHub\Assignment_2_Booking_System\BookingSystem\src\test\resources
