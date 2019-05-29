@@ -29,8 +29,10 @@ public class Client {
 		try {
 			Interface service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
 			Client window = new Client();
+			//service.view();
+			service.getTimes("2019-05-30");
 			window.open();
-			service.view();
+			//service.view();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,6 +60,7 @@ public class Client {
 		shell = new Shell();
 		shell.setSize(1000, 700);
 		shell.setText("Booking System");
+		
 		
 		DateTime dateTime = new DateTime(shell, SWT.BORDER);
 		dateTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));

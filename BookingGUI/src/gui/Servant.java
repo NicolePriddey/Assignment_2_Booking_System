@@ -27,9 +27,19 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	}
 
 	@Override
-	public Object[] getTimes(Date date) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public void getTimes(String date) throws RemoteException, SQLException {
+		connect();
+		stmt = myCon.createStatement();
+		
+		String sql = "select * from Session where date = '" + date + "'";
+		rs = stmt.executeQuery(sql);
+		
+		while (rs.next()) {
+			System.out.println(rs.getString("date") + ", " + rs.getString("booked"));
+		}
+		stmt.close();
+		myCon.close();
+		//return null;
 	}
 
 	@Override
@@ -40,17 +50,12 @@ public class Servant extends UnicastRemoteObject implements Interface {
 
 	@Override
 	public ResultSet[] view() throws RemoteException, SQLException {
-		System.out.println("Hello world");
-		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
-		System.out.println("DB connection successful...");
-		//connect();
-		// create a statement
+		connect();
 		stmt = myCon.createStatement();
 	
-		// execute the statement
-		String sql = "select * from Session";
+		String sql = "SELECT * FROM session WHERE date = '2019-05-30'";
 		rs = stmt.executeQuery(sql);
-		
+		System.out.println("hello1");
 		while (rs.next()) {
 			System.out.println(rs.getString("date") + ", " + rs.getString("booked"));
 		}
@@ -63,8 +68,8 @@ public class Servant extends UnicastRemoteObject implements Interface {
 
 	@Override
 	public void connect() throws RemoteException, SQLException {
-//		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
-//		System.out.println("DB connection successful...");
+		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
+		System.out.println("DB connection successful...");
 	}
 
 	//INSERT INTO `Session` (`id`, `date`, `time`, `level`, `booked`) VALUES (NULL, '2019-05-30', '10:30:00', '1', '0')
