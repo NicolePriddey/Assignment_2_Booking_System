@@ -23,6 +23,12 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		return false;
 	}
 
+	@Override
+	public Object[] view() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 		
 	//@override and give functionality to methods in the interface
 }
