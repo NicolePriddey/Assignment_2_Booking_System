@@ -30,6 +30,7 @@ public class Client {
 			Interface service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
 			Client window = new Client();
 			window.open();
+			service.view();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
