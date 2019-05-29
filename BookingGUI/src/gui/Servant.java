@@ -12,7 +12,7 @@ import java.sql.Time;
 
 public class Servant extends UnicastRemoteObject implements Interface {
 	
-	
+	private static final long serialVersionUID = -5830601784137874109L;
 	static final String dbUrl = "jdbc:mysql://localhost:3306/SkyDiving";
 	static final String usr = "root";
 	static final String pwd = "";
