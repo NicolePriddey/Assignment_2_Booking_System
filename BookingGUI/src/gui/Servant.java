@@ -41,7 +41,9 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	@Override
 	public ResultSet[] view() throws RemoteException, SQLException {
 		System.out.println("Hello world");
-		connect();
+		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
+		System.out.println("DB connection successful...");
+		//connect();
 		// create a statement
 		stmt = myCon.createStatement();
 	
@@ -61,8 +63,8 @@ public class Servant extends UnicastRemoteObject implements Interface {
 
 	@Override
 	public void connect() throws RemoteException, SQLException {
-		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
-		System.out.println("DB connection successful...");
+//		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
+//		System.out.println("DB connection successful...");
 	}
 
 	//INSERT INTO `Session` (`id`, `date`, `time`, `level`, `booked`) VALUES (NULL, '2019-05-30', '10:30:00', '1', '0')
