@@ -5,6 +5,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.DateTime;
 
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.wb.swt.SWTResourceManager;
@@ -18,7 +20,21 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.List;
 
 public class Client {
+	static Interface service;
 
+//	public static void main(String[] args) {
+//		try {
+//			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
+//			Client window = new Client();
+//			//service.view();
+//			
+//			window.open();
+//			//service.getTimes("2019-05-30");
+//			//service.view();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	protected Shell shell;
 
 	/**
@@ -27,12 +43,13 @@ public class Client {
 	 */
 	public static void main(String[] args) {
 		try {
-			Interface service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
+			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
 			Client window = new Client();
 			//service.view();
-			service.getTimes("2019-05-30");
+			//service.getTimes("2019-05-30");
 			window.open();
 			//service.view();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,16 +93,6 @@ public class Client {
 		lblDate.setBounds(66, 193, 65, 33);
 		lblDate.setText("Date");
 		
-		Button btnCheckAvalibility = new Button(shell, SWT.NONE);
-		btnCheckAvalibility.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnCheckAvalibility.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		btnCheckAvalibility.setBounds(406, 193, 174, 33);
-		btnCheckAvalibility.setText("Check Availability");
-		
 		Label lblTimesAvailabile = new Label(shell, SWT.NONE);
 		lblTimesAvailabile.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblTimesAvailabile.setBounds(66, 290, 150, 27);
@@ -101,9 +108,33 @@ public class Client {
 		btnBookTime.setBounds(66, 570, 126, 33);
 		btnBookTime.setText("Book Time");
 		
-		List list = new List(shell, SWT.BORDER);
-		list.setItems(new String[] {"time 1", "time 2"});
-		list.setBounds(66, 339, 863, 193);
+		List showTimes = new List(shell, SWT.BORDER);
+		showTimes.setItems(new String[] {"time 1", "time 2"});
+		showTimes.setBounds(66, 339, 863, 193);
+		
+		Button btnCheckAvalibility = new Button(shell, SWT.NONE);
+		btnCheckAvalibility.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnCheckAvalibility.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
+				try {
+					service.view();
+				} catch (RemoteException | SQLException e1) {
+					e1.printStackTrace();
+				}
+				System.out.println(date);
+//				try {
+//					//String[] s = service.getTimes(date);
+//					//showTimes.setItems(service.getTimes(date));
+//					
+//				} catch (RemoteException | SQLException e1) {
+//					e1.printStackTrace();
+//				}
+			}
+		});
+		btnCheckAvalibility.setBounds(406, 193, 174, 33);
+		btnCheckAvalibility.setText("Check Availability");
 
 	}
 }

@@ -27,19 +27,26 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	}
 
 	@Override
-	public void getTimes(String date) throws RemoteException, SQLException {
+	public String[] getTimes(String date) throws RemoteException, SQLException {
 		connect();
 		stmt = myCon.createStatement();
 		
 		String sql = "select * from Session where date = '" + date + "'";
 		rs = stmt.executeQuery(sql);
 		
+		String[] times = null; 
+		int count = 0;
 		while (rs.next()) {
-			System.out.println(rs.getString("date") + ", " + rs.getString("booked"));
+			times[count] = rs.getString("date") + ", " + rs.getString("booked");
+			count++;
+		}
+		
+		for (int i = 0; i < times.length; i++) {
+			System.out.println(times[i]);
 		}
 		stmt.close();
 		myCon.close();
-		//return null;
+		return times;
 	}
 
 	@Override
@@ -55,7 +62,7 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	
 		String sql = "SELECT * FROM session WHERE date = '2019-05-30'";
 		rs = stmt.executeQuery(sql);
-		System.out.println("hello1");
+		System.out.println("hello");
 		while (rs.next()) {
 			System.out.println(rs.getString("date") + ", " + rs.getString("booked"));
 		}
