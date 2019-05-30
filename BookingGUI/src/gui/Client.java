@@ -1,23 +1,20 @@
 package gui;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.DateTime;
-
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.wb.swt.SWTResourceManager;
-
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Client {
 	static Interface service;
@@ -118,12 +115,20 @@ public class Client {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
+				
 				try {
-					service.view();
+					ResultSet rs = service.getTimes(date);
+					while (rs.next()) {
+						showTimes.add(rs.getString("date") + ", " + rs.getString("booked"));
+
+					}
+					
 				} catch (RemoteException | SQLException e1) {
 					e1.printStackTrace();
 				}
 				System.out.println(date);
+				
+				
 //				try {
 //					//String[] s = service.getTimes(date);
 //					//showTimes.setItems(service.getTimes(date));
