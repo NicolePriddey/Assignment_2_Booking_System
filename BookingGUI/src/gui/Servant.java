@@ -38,8 +38,7 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		String s = "";
 		System.out.println("Hello?");
 		while (rs.next()) {
-			System.out.println("rs: " + rs.getString("date") + ", " + rs.getString("booked") + ":");
-			s += rs.getString("id") + ": " + rs.getString("date") + ", " + rs.getString("time") + rs.getString("level") +rs.getString("booked") + ";";
+			s += rs.getString("date") + "~" + rs.getString("time") + "~" + rs.getString("height") + "~" + rs.getString("spaces") + "~" +rs.getString("price") + ";";
 		}
 		stmt.close();
 		myCon.close();

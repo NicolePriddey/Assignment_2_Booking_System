@@ -19,25 +19,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 public class Client {
 	static Interface service;
 
-//	public static void main(String[] args) {
-//		try {
-//			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
-//			Client window = new Client();
-//			//service.view();
-//			
-//			window.open();
-//			//service.getTimes("2019-05-30");
-//			//service.view();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 	protected Shell shell;
-	private Table table;
+	private Table tblShowTimes;
 
 	/**
 	 * Launch the application.
@@ -47,11 +35,7 @@ public class Client {
 		try {
 			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
 			Client window = new Client();
-			//service.view();
-			//service.getTimes("2019-05-30");
 			window.open();
-			//service.view();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,11 +84,30 @@ public class Client {
 		lblTimesAvailabile.setBounds(66, 290, 150, 27);
 		lblTimesAvailabile.setText("Times Availabile");
 		
+		tblShowTimes = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		tblShowTimes.setBounds(66, 323, 863, 215);
+		tblShowTimes.setHeaderVisible(true);
+		tblShowTimes.setLinesVisible(true);
 		
+		TableColumn tblclmnDate = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmnDate.setWidth(127);
+		tblclmnDate.setText("Date");
 		
-		List showTimes = new List(shell, SWT.BORDER);
-		showTimes.setItems(new String[] {"time 1", "time 2"});
-		showTimes.setBounds(66, 339, 863, 54);
+		TableColumn tblclmnTime = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmnTime.setWidth(100);
+		tblclmnTime.setText("Time");
+		
+		TableColumn tblclmHeight = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmHeight.setWidth(146);
+		tblclmHeight.setText("Jump Height ( km ) ");
+		
+		TableColumn tblclmnSpaces = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmnSpaces.setWidth(138);
+		tblclmnSpaces.setText("Spaces available");
+		
+		TableColumn tblclmnPrice = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmnPrice.setWidth(93);
+		tblclmnPrice.setText("Price ( $ )");
 		
 		Button btnCheckAvalibility = new Button(shell, SWT.NONE);
 		btnCheckAvalibility.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
@@ -112,16 +115,26 @@ public class Client {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
-				
-				try {
-					String s = service.getTimes(date);
-					System.out.println("String: " + s);
+
+		        try {
+					String queryResults = service.getTimes(date);
+					System.out.println("String: " + queryResults);
 					
-					String[] sArr = s.split(";");
-					showTimes.removeAll();
-					for(int i = 0; i < sArr.length; i++) {
-						System.out.println("Array?: " + sArr[i]);
-						showTimes.add(sArr[i]);
+					String[] sessionsArr = queryResults.split(";");
+					tblShowTimes.removeAll();
+					
+					for(int i = 0; i < sessionsArr.length; i++) {
+						System.out.println("Session arr before split: " + sessionsArr[i]);
+						String[] sessionElements = sessionsArr[i].split("~");
+						TableItem item = new TableItem(tblShowTimes, SWT.NONE);
+						for (int j = 0; j < sessionElements.length; j++){
+							System.out.println("Session elements: " + sessionElements[j] );
+							item.setText(j, sessionElements[j]);
+						}
+						
+//				        item.setText(1, "hello");
+//						System.out.println("Array?: " + sArr[i]);
+
 					}
 					
 				} catch (RemoteException | SQLException e1) {
@@ -137,11 +150,11 @@ public class Client {
 		btnBookTime.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String[] selection = showTimes.getSelection();
+				TableItem[] selection = tblShowTimes.getSelection();
 				if( selection.length == 0 ) 
-					JOptionPane.showMessageDialog(null, "Select a time to book");
+					JOptionPane.showMessageDialog(null, "Please select a time from the list to book", "No time selected", JOptionPane.ERROR_MESSAGE);
 				else {
-					//database shit 
+					JOptionPane.showMessageDialog(null, "you have booked 'this' time succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}
@@ -151,18 +164,7 @@ public class Client {
 		btnBookTime.setBounds(66, 570, 126, 33);
 		btnBookTime.setText("Book Time");
 		
-		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(66, 439, 863, 99);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
 		
-		TableColumn tblclmnDate = new TableColumn(table, SWT.NONE);
-		tblclmnDate.setWidth(100);
-		tblclmnDate.setText("Date");
-		
-		TableColumn tblclmnLevel = new TableColumn(table, SWT.NONE);
-		tblclmnLevel.setWidth(100);
-		tblclmnLevel.setText("Level");
 
 	}
 }
