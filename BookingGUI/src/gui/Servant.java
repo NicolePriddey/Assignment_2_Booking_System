@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.util.List;
 
 public class Servant extends UnicastRemoteObject implements Interface {
 	
@@ -27,26 +28,22 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	}
 
 	@Override
-	public ResultSet getTimes(String date) throws RemoteException, SQLException {
+	public String getTimes(String date) throws RemoteException, SQLException {
 		connect();
 		stmt = myCon.createStatement();
 		
 		String sql = "select * from Session where date = '" + date + "'";
+		System.out.println(sql);
 		rs = stmt.executeQuery(sql);
-		
-//		String[] times = null; 
-//		int count = 0;
-//		while (rs.next()) {
-//			times[count] = rs.getString("date") + ", " + rs.getString("booked");
-//			count++;
-//		}
-//		
-//		for (int i = 0; i < times.length; i++) {
-//			System.out.println(times[i]);
-//		}
+		String s = "";
+		System.out.println("Hello?");
+		while (rs.next()) {
+			System.out.println("rs: " + rs.getString("date") + ", " + rs.getString("booked") + ":");
+			s += rs.getString("id") + ": " + rs.getString("date") + ", " + rs.getString("time") + rs.getString("level") +rs.getString("booked") + ";";
+		}
 		stmt.close();
 		myCon.close();
-		return rs;
+		return s;
 	}
 
 	@Override
@@ -77,6 +74,12 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	public void connect() throws RemoteException, SQLException {
 		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
 		System.out.println("DB connection successful...");
+	}
+
+	@Override
+	public void book() throws RemoteException, SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	//INSERT INTO `Session` (`id`, `date`, `time`, `level`, `booked`) VALUES (NULL, '2019-05-30', '10:30:00', '1', '0')

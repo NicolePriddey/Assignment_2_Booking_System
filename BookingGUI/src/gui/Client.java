@@ -2,8 +2,10 @@ package gui;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -95,15 +97,7 @@ public class Client {
 		lblTimesAvailabile.setBounds(66, 290, 150, 27);
 		lblTimesAvailabile.setText("Times Availabile");
 		
-		Button btnBookTime = new Button(shell, SWT.NONE);
-		btnBookTime.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnBookTime.setBounds(66, 570, 126, 33);
-		btnBookTime.setText("Book Time");
+		
 		
 		List showTimes = new List(shell, SWT.BORDER);
 		showTimes.setItems(new String[] {"time 1", "time 2"});
@@ -117,29 +111,42 @@ public class Client {
 				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
 				
 				try {
-					ResultSet rs = service.getTimes(date);
-					while (rs.next()) {
-						showTimes.add(rs.getString("date") + ", " + rs.getString("booked"));
-
+					String s = service.getTimes(date);
+					System.out.println("String: " + s);
+					
+					String[] sArr = s.split(";");
+					showTimes.removeAll();
+					for(int i = 0; i < sArr.length; i++) {
+						System.out.println("Array?: " + sArr[i]);
+						showTimes.add(sArr[i]);
 					}
 					
 				} catch (RemoteException | SQLException e1) {
 					e1.printStackTrace();
 				}
 				System.out.println(date);
-				
-				
-//				try {
-//					//String[] s = service.getTimes(date);
-//					//showTimes.setItems(service.getTimes(date));
-//					
-//				} catch (RemoteException | SQLException e1) {
-//					e1.printStackTrace();
-//				}
 			}
 		});
 		btnCheckAvalibility.setBounds(406, 193, 174, 33);
 		btnCheckAvalibility.setText("Check Availability");
+		
+		Button btnBookTime = new Button(shell, SWT.NONE);
+		btnBookTime.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String[] selection = showTimes.getSelection();
+				if( selection.length == 0 ) 
+					JOptionPane.showMessageDialog(null, "Select a time to book");
+				else {
+					//database shit 
+				}
+				
+			}
+		});
+
+		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnBookTime.setBounds(66, 570, 126, 33);
+		btnBookTime.setText("Book Time");
 
 	}
 }
