@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 public class Client {
 	static Interface service;
@@ -35,6 +37,7 @@ public class Client {
 //		}
 //	}
 	protected Shell shell;
+	private Table table;
 
 	/**
 	 * Launch the application.
@@ -101,7 +104,7 @@ public class Client {
 		
 		List showTimes = new List(shell, SWT.BORDER);
 		showTimes.setItems(new String[] {"time 1", "time 2"});
-		showTimes.setBounds(66, 339, 863, 193);
+		showTimes.setBounds(66, 339, 863, 54);
 		
 		Button btnCheckAvalibility = new Button(shell, SWT.NONE);
 		btnCheckAvalibility.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
@@ -147,6 +150,19 @@ public class Client {
 		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnBookTime.setBounds(66, 570, 126, 33);
 		btnBookTime.setText("Book Time");
+		
+		table = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBounds(66, 439, 863, 99);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		
+		TableColumn tblclmnDate = new TableColumn(table, SWT.NONE);
+		tblclmnDate.setWidth(100);
+		tblclmnDate.setText("Date");
+		
+		TableColumn tblclmnLevel = new TableColumn(table, SWT.NONE);
+		tblclmnLevel.setWidth(100);
+		tblclmnLevel.setText("Level");
 
 	}
 }
