@@ -20,12 +20,14 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 
 public class Client {
 	static Interface service;
 
 	protected Shell shell;
 	private Table tblShowTimes;
+	private Text txtNumPpl;
 
 	/**
 	 * Launch the application.
@@ -89,6 +91,10 @@ public class Client {
 		tblShowTimes.setHeaderVisible(true);
 		tblShowTimes.setLinesVisible(true);
 		
+		TableColumn tblclmnId = new TableColumn(tblShowTimes, SWT.NONE);
+		tblclmnId.setResizable(false);
+		tblclmnId.setText("ID");
+		
 		TableColumn tblclmnDate = new TableColumn(tblShowTimes, SWT.NONE);
 		tblclmnDate.setWidth(127);
 		tblclmnDate.setText("Date");
@@ -145,6 +151,17 @@ public class Client {
 		});
 		btnCheckAvalibility.setBounds(406, 193, 174, 33);
 		btnCheckAvalibility.setText("Check Availability");
+
+		
+		txtNumPpl = new Text(shell, SWT.BORDER);
+		txtNumPpl.setText("1");
+		txtNumPpl.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		txtNumPpl.setBounds(167, 576, 65, 33);
+		
+		Label lblPeopleX = new Label(shell, SWT.NONE);
+		lblPeopleX.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblPeopleX.setBounds(66, 576, 95, 26);
+		lblPeopleX.setText("People    x ");
 		
 		Button btnBookTime = new Button(shell, SWT.NONE);
 		btnBookTime.addSelectionListener(new SelectionAdapter() {
@@ -154,17 +171,23 @@ public class Client {
 				if( selection.length == 0 ) 
 					JOptionPane.showMessageDialog(null, "Please select a time from the list to book", "No time selected", JOptionPane.ERROR_MESSAGE);
 				else {
+					//has id in table figure out how to use it
+					for (int i = 0; i < selection.length; i ++) {
+						System.out.println("table selection:  " + selection[i]);
+					}
+					//if ( selected item spaces available is less thantxtNumPpl)
+					//messages saying that there isn't that many spaces available 
+					//else 
+					//find in database and lower sessions by how many selected 
 					JOptionPane.showMessageDialog(null, "you have booked 'this' time succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}
 		});
-
+		
 		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnBookTime.setBounds(66, 570, 126, 33);
+		btnBookTime.setBounds(261, 576, 126, 33);
 		btnBookTime.setText("Book Time");
-		
-		
 
 	}
 }
