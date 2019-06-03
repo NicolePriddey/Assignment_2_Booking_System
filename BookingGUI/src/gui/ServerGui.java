@@ -99,6 +99,11 @@ public class ServerGui {
 		combo.select(0);
 		
 		Button btnChangeSpaces = new Button(shell, SWT.NONE);
+		btnChangeSpaces.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
 		btnChangeSpaces.setBounds(38, 396, 134, 26);
 		btnChangeSpaces.setText("Change spaces");
 
