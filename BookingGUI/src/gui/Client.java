@@ -118,6 +118,7 @@ public class Client {
 		btnCheckAvalibility.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				//is there a method for this?
 				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
 
 		        try {
