@@ -124,23 +124,19 @@ public class Client {
 
 		        try {
 					String queryResults = service.getTimes(date);
-					System.out.println("String: " + queryResults);
+//					System.out.println("String: " + queryResults);
 					
 					String[] sessionsArr = queryResults.split(";");
 					tblShowTimes.removeAll();
 					
 					for(int i = 0; i < sessionsArr.length; i++) {
-						System.out.println("Session arr before split: " + sessionsArr[i]);
+//						System.out.println("Session arr before split: " + sessionsArr[i]);
 						String[] sessionElements = sessionsArr[i].split("~");
 						TableItem item = new TableItem(tblShowTimes, SWT.NONE);
 						for (int j = 0; j < sessionElements.length; j++){
-							System.out.println("Session elements: " + sessionElements[j] );
+//							System.out.println("Session elements: " + sessionElements[j] );
 							item.setText(j, sessionElements[j]);
 						}
-						
-//				        item.setText(1, "hello");
-//						System.out.println("Array?: " + sArr[i]);
-
 					}
 					
 				} catch (RemoteException | SQLException e1) {
@@ -171,10 +167,11 @@ public class Client {
 				if( selection.length == 0 ) 
 					JOptionPane.showMessageDialog(null, "Please select a time from the list to book", "No time selected", JOptionPane.ERROR_MESSAGE);
 				else {
-					//has id in table figure out how to use it
-					for (int i = 0; i < selection.length; i ++) {
-						System.out.println("table selection:  " + selection[i]);
-					}
+					//Gets the id
+					System.out.println("table selection:  " + selection[0].getText());
+					txtNumPpl.getText();
+					
+				}
 					//if ( selected item spaces available is less thantxtNumPpl)
 					//messages saying that there isn't that many spaces available 
 					//else 
@@ -182,7 +179,7 @@ public class Client {
 					JOptionPane.showMessageDialog(null, "you have booked 'this' time succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
-			}
+			
 		});
 		
 		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
