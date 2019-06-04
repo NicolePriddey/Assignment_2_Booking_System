@@ -33,10 +33,10 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		stmt = myCon.createStatement();
 		
 		String sql = "select * from Session where date = '" + date + "'";
-		System.out.println(sql);
+//		System.out.println(sql);
 		rs = stmt.executeQuery(sql);
 		String s = "";
-		System.out.println("Hello?");
+//		System.out.println("Hello?");
 		while (rs.next()) {
 			s += rs.getString("id") + "~" + rs.getString("date") + "~" + rs.getString("time") + "~" + rs.getString("height") + "~" + rs.getString("spaces") + "~" +rs.getString("price") + ";";
 		}
@@ -46,8 +46,25 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	}
 
 	@Override
-	public boolean checkStatus(Date date, Time time) throws RemoteException {
-		// TODO Auto-generated method stub
+	public boolean checkPlaces(String id, String userPlaces) throws RemoteException, SQLException {
+		connect();
+		stmt = myCon.createStatement();
+		
+		String sql = "select spaces from Session where id = '" + id + "'";
+		System.out.println(sql);
+		rs = stmt.executeQuery(sql);
+		String spaces = null;
+//		System.out.println("Hello?");
+		while (rs.next()) {
+			spaces = rs.getString("spaces");
+		}
+		
+		if (Integer.parseInt(userPlaces) <= Integer.parseInt(spaces)) {
+			return true;
+		}
+		stmt.close();
+		myCon.close();
+		
 		return false;
 	}
 

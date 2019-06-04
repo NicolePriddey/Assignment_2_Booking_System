@@ -168,11 +168,20 @@ public class Client {
 					JOptionPane.showMessageDialog(null, "Please select a time from the list to book", "No time selected", JOptionPane.ERROR_MESSAGE);
 				else {
 					//Gets the id
-					System.out.println("table selection:  " + selection[0].getText());
-					txtNumPpl.getText();
+//					System.out.println("table selection:  " + selection[0].getText());
+					
+					try {
+						if (service.checkPlaces(selection[0].getText(),txtNumPpl.getText())) {
+							JOptionPane.showMessageDialog(null, "There are places", "yes", JOptionPane.INFORMATION_MESSAGE);
+						}
+					} catch (RemoteException | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 				}
-					//if ( selected item spaces available is less thantxtNumPpl)
+					
+				//if ( selected item spaces available is less thantxtNumPpl)
 					//messages saying that there isn't that many spaces available 
 					//else 
 					//find in database and lower sessions by how many selected 

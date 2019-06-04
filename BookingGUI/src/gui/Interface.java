@@ -10,9 +10,11 @@ import java.util.List;
 
 public interface Interface extends Remote {
 	public String getTimes(String date) throws RemoteException, SQLException;
-	public boolean checkStatus(Date date, Time time) throws RemoteException;
+	boolean checkPlaces(String string, String string2) throws RemoteException, SQLException;
 	public ResultSet view() throws RemoteException, SQLException;
 	public void connect() throws RemoteException, SQLException;
 	public void book() throws RemoteException, SQLException;
 	//method signatures to do stuff need to throws RemoteException;
+	
+	
 }
