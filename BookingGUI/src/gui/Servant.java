@@ -3,13 +3,10 @@ package gui;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.util.List;
 
 public class Servant extends UnicastRemoteObject implements Interface {
 	
@@ -21,7 +18,7 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	private static Connection myCon = null;
 	private static Statement stmt = null;
 	private static ResultSet rs = null;
-	
+	String spaces = null;
 	
 	protected Servant() throws RemoteException {
 		super();
@@ -31,12 +28,10 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	public String getTimes(String date) throws RemoteException, SQLException {
 		connect();
 		stmt = myCon.createStatement();
-		
 		String sql = "select * from Session where date = '" + date + "'";
-//		System.out.println(sql);
 		rs = stmt.executeQuery(sql);
 		String s = "";
-//		System.out.println("Hello?");
+		
 		while (rs.next()) {
 			s += rs.getString("id") + "~" + rs.getString("date") + "~" + rs.getString("time") + "~" + rs.getString("height") + "~" + rs.getString("spaces") + "~" +rs.getString("price") + ";";
 		}
@@ -49,22 +44,17 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	public boolean checkPlaces(String id, String userPlaces) throws RemoteException, SQLException {
 		connect();
 		stmt = myCon.createStatement();
-		
 		String sql = "select spaces from Session where id = '" + id + "'";
-		System.out.println(sql);
 		rs = stmt.executeQuery(sql);
-		String spaces = null;
-//		System.out.println("Hello?");
+		
 		while (rs.next()) {
 			spaces = rs.getString("spaces");
 		}
 		
-		if (Integer.parseInt(userPlaces) <= Integer.parseInt(spaces)) {
-			return true;
-		}
+		if (Integer.parseInt(userPlaces) <= Integer.parseInt(spaces)) return true;
+		
 		stmt.close();
 		myCon.close();
-		
 		return false;
 	}
 
@@ -93,9 +83,18 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	}
 
 	@Override
-	public void book() throws RemoteException, SQLException {
-		// TODO Auto-generated method stub
-		
+	public boolean book(String id, String userPlaces) throws RemoteException, SQLException {
+		if (checkPlaces(id, userPlaces)) {
+			connect();
+			stmt = myCon.createStatement();
+			int newSpaces = Integer.parseInt(spaces) - Integer.parseInt(userPlaces);
+			String sql = "UPDATE session SET spaces = '" + newSpaces + "' WHERE id = '" + id + "'";
+			stmt.executeUpdate(sql);
+			return true;
+		}
+		stmt.close();
+		myCon.close();
+		return false;
 	}
 
 	//INSERT INTO `Session` (`id`, `date`, `time`, `level`, `booked`) VALUES (NULL, '2019-05-30', '10:30:00', '1', '0')

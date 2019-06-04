@@ -3,7 +3,6 @@ package gui;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -14,13 +13,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Client {
 	static Interface service;
@@ -124,25 +122,20 @@ public class Client {
 
 		        try {
 					String queryResults = service.getTimes(date);
-//					System.out.println("String: " + queryResults);
-					
 					String[] sessionsArr = queryResults.split(";");
 					tblShowTimes.removeAll();
 					
-					for(int i = 0; i < sessionsArr.length; i++) {
-//						System.out.println("Session arr before split: " + sessionsArr[i]);
-						String[] sessionElements = sessionsArr[i].split("~");
+					for(String s : sessionsArr) {
+						String[] sessionElements = s.split("~");
 						TableItem item = new TableItem(tblShowTimes, SWT.NONE);
-						for (int j = 0; j < sessionElements.length; j++){
-//							System.out.println("Session elements: " + sessionElements[j] );
-							item.setText(j, sessionElements[j]);
+						int column = 0;
+						for (String se : sessionElements) {
+							item.setText(column, se);
+							column++;
 						}
 					}
 					
-				} catch (RemoteException | SQLException e1) {
-					e1.printStackTrace();
-				}
-				System.out.println(date);
+				} catch (RemoteException | SQLException e1) { e1.printStackTrace(); }
 			}
 		});
 		btnCheckAvalibility.setBounds(406, 193, 174, 33);
@@ -166,29 +159,18 @@ public class Client {
 				TableItem[] selection = tblShowTimes.getSelection();
 				if( selection.length == 0 ) 
 					JOptionPane.showMessageDialog(null, "Please select a time from the list to book", "No time selected", JOptionPane.ERROR_MESSAGE);
-				else {
-					//Gets the id
-//					System.out.println("table selection:  " + selection[0].getText());
-					
+				else {				
 					try {
-						if (service.checkPlaces(selection[0].getText(),txtNumPpl.getText())) {
-							JOptionPane.showMessageDialog(null, "There are places", "yes", JOptionPane.INFORMATION_MESSAGE);
-						}
-					} catch (RemoteException | SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+						if (service.book(selection[0].getText(),txtNumPpl.getText())) 
+							JOptionPane.showMessageDialog(null, "you have booked time succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+						else
+							JOptionPane.showMessageDialog(null, "There are not enough places in this session", "No Space", JOptionPane.ERROR_MESSAGE);
+					} catch (RemoteException | SQLException e1) { e1.printStackTrace(); }
 					
 				}
-					
-				//if ( selected item spaces available is less thantxtNumPpl)
-					//messages saying that there isn't that many spaces available 
-					//else 
-					//find in database and lower sessions by how many selected 
-					JOptionPane.showMessageDialog(null, "you have booked 'this' time succesfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-				}
-				
-			
+	
+			}
+
 		});
 		
 		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));

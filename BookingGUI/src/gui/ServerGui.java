@@ -1,22 +1,19 @@
 package gui;
 
-import java.rmi.NoSuchObjectException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class ServerGui {
 
@@ -94,18 +91,25 @@ public class ServerGui {
 		tableColumn_4.setText("Spaces available");
 		
 		Combo combo = new Combo(shell, SWT.NONE);
+		combo.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		combo.setItems(new String[] {"Today", "This week", "Next week"});
 		combo.setBounds(43, 73, 176, 25);
 		combo.select(0);
 		
-		Button btnChangeSpaces = new Button(shell, SWT.NONE);
-		btnChangeSpaces.addSelectionListener(new SelectionAdapter() {
+		Button btnBook = new Button(shell, SWT.NONE);
+		btnBook.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnBook.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 			}
 		});
-		btnChangeSpaces.setBounds(38, 396, 134, 26);
-		btnChangeSpaces.setText("Change spaces");
+		btnBook.setBounds(38, 396, 134, 32);
+		btnBook.setText("Book");
+		
+		Button btnCancel = new Button(shell, SWT.NONE);
+		btnCancel.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnCancel.setBounds(242, 396, 85, 31);
+		btnCancel.setText("Cancel");
 
 	}
 }
