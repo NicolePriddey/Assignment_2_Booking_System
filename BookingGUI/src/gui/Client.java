@@ -62,7 +62,7 @@ public class Client {
 	protected void createContents() {
 		shell = new Shell();
 		shell.setSize(1000, 700);
-		shell.setText("Booking System");
+		shell.setText("Atmosphere Plunge Skydiving");
 		
 		
 		DateTime dateTime = new DateTime(shell, SWT.BORDER);
@@ -128,12 +128,15 @@ public class Client {
 					
 					for(String s : sessionsArr) {
 						String[] sessionElements = s.split("~");
-						TableItem item = new TableItem(tblShowTimes, SWT.NONE);
-						int column = 0;
-						for (String se : sessionElements) {
-							item.setText(column, se);
-							column++;
+						if(Integer.parseInt(sessionElements[4]) != 0) {
+							TableItem item = new TableItem(tblShowTimes, SWT.NONE);
+							int column = 0;
+							for (String se : sessionElements) {
+								item.setText(column, se);
+								column++;
+							}
 						}
+						
 					}
 					
 				} catch (RemoteException | SQLException e1) { e1.printStackTrace(); }

@@ -11,4 +11,5 @@ public interface Interface extends Remote {
 	public ResultSet view() throws RemoteException, SQLException;
 	public void connect() throws RemoteException, SQLException;
 	public boolean book(String id, String userPlaces) throws RemoteException, SQLException;	
+	public boolean cancel(String id, String userPlaces) throws RemoteException, SQLException;	
 }

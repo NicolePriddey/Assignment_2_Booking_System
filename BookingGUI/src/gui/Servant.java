@@ -43,7 +43,7 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	@Override
 	public boolean checkPlaces(String id, String userPlaces) throws RemoteException, SQLException {
 		connect();
-		stmt = myCon.createStatement();
+		
 		String sql = "select spaces from Session where id = '" + id + "'";
 		rs = stmt.executeQuery(sql);
 		
@@ -79,14 +79,14 @@ public class Servant extends UnicastRemoteObject implements Interface {
 	@Override
 	public void connect() throws RemoteException, SQLException {
 		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
-		System.out.println("DB connection successful...");
+		stmt = myCon.createStatement();
 	}
 
 	@Override
 	public boolean book(String id, String userPlaces) throws RemoteException, SQLException {
 		if (checkPlaces(id, userPlaces)) {
 			connect();
-			stmt = myCon.createStatement();
+			
 			int newSpaces = Integer.parseInt(spaces) - Integer.parseInt(userPlaces);
 			String sql = "UPDATE session SET spaces = '" + newSpaces + "' WHERE id = '" + id + "'";
 			stmt.executeUpdate(sql);
@@ -97,5 +97,23 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		return false;
 	}
 
-	//INSERT INTO `Session` (`id`, `date`, `time`, `level`, `booked`) VALUES (NULL, '2019-05-30', '10:30:00', '1', '0')
+	@Override
+	public boolean cancel(String id, String userPlaces) throws RemoteException, SQLException {
+		connect();
+		
+		String sql = "select spaces from Session where id = '" + id + "'";
+		rs = stmt.executeQuery(sql);
+		int spaces = 0;
+		while (rs.next()) {
+			spaces = Integer.parseInt(rs.getString("spaces"));
+		}
+		int newSpaces = spaces + Integer.parseInt(userPlaces);
+		
+		sql = "UPDATE session SET spaces = '" + newSpaces + "' WHERE id = '" + id + "'";
+		stmt.executeUpdate(sql);
+
+		stmt.close();
+		myCon.close();
+		return true;
+	}
 }
