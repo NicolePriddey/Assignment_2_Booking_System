@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -224,6 +225,22 @@ public class ServerGui {
 		btnTomorrow.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnTomorrow.setBounds(406, 77, 134, 26);
 		btnTomorrow.setText("Tomorrow");
+		
+		Button btnReport = new Button(shell, SWT.NONE);
+		btnReport.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					service.createFile();
+				} catch (SQLException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnReport.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnReport.setText("Export report");
+		btnReport.setBounds(627, 52, 143, 32);
 
 	}
 }

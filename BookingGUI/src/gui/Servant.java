@@ -1,5 +1,9 @@
 package gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -74,8 +78,6 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		return null;
 	}
 
-	
-
 	@Override
 	public void connect() throws RemoteException, SQLException {
 		myCon = DriverManager.getConnection(dbUrl, usr, pwd);
@@ -115,5 +117,42 @@ public class Servant extends UnicastRemoteObject implements Interface {
 		stmt.close();
 		myCon.close();
 		return true;
+	}
+
+	@Override
+	public String getWeek() throws RemoteException, SQLException {
+		//change to results set cuz only use in the same class?
+		//so can format it nice
+		connect();
+		String today = java.time.LocalDate.now().plusDays(0).toString();
+		String weekEnd = java.time.LocalDate.now().plusDays(7).toString();
+		System.out.println("Today: " + today + " " + weekEnd);
+		stmt = myCon.createStatement();
+		String sql = "select * from Session where date BETWEEN '" + today +"' AND '" + weekEnd +"'";
+		rs = stmt.executeQuery(sql);
+		String s = "";
+		
+		while (rs.next()) {
+			s += rs.getString("id") + "~" + rs.getString("date") + "~" + rs.getString("time") + "~" + rs.getString("height") + "~" + rs.getString("spaces") + "~" +rs.getString("price") + ";";
+		}
+		stmt.close();
+		myCon.close();
+		return s;
+	}
+
+	@Override
+	public void createFile() throws SQLException, IOException {
+		String report = getWeek();
+		File file = new File("WeekReport.txt");
+		
+		FileOutputStream stream = new FileOutputStream(file);
+		
+		byte[] reportInBytes = report.getBytes();
+		stream.write(reportInBytes);
+		stream.flush();
+		stream.close();
+		
+		
+		
 	}
 }

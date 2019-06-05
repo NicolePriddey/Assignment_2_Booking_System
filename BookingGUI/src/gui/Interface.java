@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.ResultSet;
@@ -11,5 +13,7 @@ public interface Interface extends Remote {
 	public ResultSet view() throws RemoteException, SQLException;
 	public void connect() throws RemoteException, SQLException;
 	public boolean book(String id, String userPlaces) throws RemoteException, SQLException;	
-	public boolean cancel(String id, String userPlaces) throws RemoteException, SQLException;	
+	public boolean cancel(String id, String userPlaces) throws RemoteException, SQLException;
+	public String getWeek() throws RemoteException, SQLException;
+	public void createFile() throws RemoteException, SQLException, FileNotFoundException, IOException;
 }
