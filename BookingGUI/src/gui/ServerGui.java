@@ -224,6 +224,16 @@ public class ServerGui {
 		btnTomorrow.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnTomorrow.setBounds(406, 77, 134, 26);
 		btnTomorrow.setText("Tomorrow");
+		
+		Button btnNewButton = new Button(shell, SWT.NONE);
+		btnNewButton.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		btnNewButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(640, 10, 218, 37);
+		btnNewButton.setText("Export week report");
 
 	}
 }

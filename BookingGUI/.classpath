@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="C:/Users/Nicole/.p2/pool/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar" sourcepath="C:/Users/Nicole/.p2/pool/plugins/com.ibm.icu_58.2.0.v20170418-1837.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Nicole/.p2/pool/plugins/org.eclipse.ui.forms_3.7.200.v20180512-1133.jar" sourcepath="C:/Users/Nicole/.p2/pool/plugins/org.eclipse.ui.forms_3.7.200.v20180512-1133.jar"/>
 	<classpathentry kind="lib" path="mysql-connector-java-5.1.47-bin.jar"/>
+	<classpathentry kind="lib" path="mongo-java-driver-3.11.0-beta3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
