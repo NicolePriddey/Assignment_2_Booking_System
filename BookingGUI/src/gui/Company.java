@@ -7,15 +7,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
-import java.time.LocalDate;
-
 import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -24,12 +21,13 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.graphics.Color;
 
-public class ServerGui {
+public class Company {
 
 	protected Shell shell;
 	static Registry registry;
-	static Interface service;
+	static IBooking service;
 	private Table tblShowSessions;
 	private Text txtCancelSpaces;
 	private Text txtBookSpaces;
@@ -41,10 +39,10 @@ public class ServerGui {
 		//Registry registry;
 		try {
 			registry = LocateRegistry.createRegistry(1099);
-			registry.rebind("passkey", new Servant());
+			registry.rebind("sky", new Servant());
 			
-			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
-			ServerGui window = new ServerGui();
+			service = (IBooking) Naming.lookup("rmi://localhost:1099/sky");
+			Company window = new Company();
 			window.open();
 			//free up the port
 			if (registry != null) UnicastRemoteObject.unexportObject(registry, true);
@@ -74,10 +72,11 @@ public class ServerGui {
 	 */
 	protected void createContents() {
 		shell = new Shell();
+		shell.setBackground(SWTResourceManager.getColor(185, 209, 234));
 		shell.setSize(896, 619);
 		shell.setText("Atmosphere Plunge Skydiving Server");
 		
-		tblShowSessions = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		tblShowSessions = new Table(shell, SWT.FULL_SELECTION);
 		tblShowSessions.setLinesVisible(true);
 		tblShowSessions.setHeaderVisible(true);
 		tblShowSessions.setBounds(43, 193, 807, 217);
@@ -103,6 +102,7 @@ public class ServerGui {
 		tableColumn_4.setText("Spaces available");
 		
 		Button btnBook = new Button(shell, SWT.NONE);
+		btnBook.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnBook.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnBook.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -126,6 +126,7 @@ public class ServerGui {
 		btnBook.setText("Book");
 		
 		Button btnCancel = new Button(shell, SWT.NONE);
+		btnCancel.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnCancel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -146,11 +147,13 @@ public class ServerGui {
 		btnCancel.setText("Cancel");
 		
 		Label lblBookSpaces = new Label(shell, SWT.NONE);
+		lblBookSpaces.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblBookSpaces.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblBookSpaces.setBounds(25, 453, 141, 31);
 		lblBookSpaces.setText("Book spaces  x");
 		
 		Label lblCancelSpaces = new Label(shell, SWT.NONE);
+		lblCancelSpaces.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblCancelSpaces.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblCancelSpaces.setBounds(467, 453, 158, 31);
 		lblCancelSpaces.setText("Cancel spaces  x");
@@ -165,12 +168,12 @@ public class ServerGui {
 		txtBookSpaces.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		txtBookSpaces.setBounds(161, 453, 64, 32);
 		
-		Button btnToday = new Button(shell, SWT.RADIO);
+		Button btnToday = new Button(shell, SWT.BORDER | SWT.RADIO | SWT.CENTER);
+		btnToday.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnToday.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String today = java.time.LocalDate.now().toString();
-				System.out.println(today);
 				try {
 					String queryResults = service.getTimes(today);
 					String[] sessionsArr = queryResults.split(";");
@@ -190,20 +193,21 @@ public class ServerGui {
 			}
 		});
 		btnToday.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnToday.setBounds(258, 75, 120, 31);
+		btnToday.setBounds(258, 75, 108, 31);
 		btnToday.setText("Today");
 		
 		Label lblViewBookingsFor = new Label(shell, SWT.NONE);
+		lblViewBookingsFor.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblViewBookingsFor.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblViewBookingsFor.setBounds(43, 77, 176, 32);
 		lblViewBookingsFor.setText("View bookings for");
 		
-		Button btnTomorrow = new Button(shell, SWT.RADIO);
+		Button btnTomorrow = new Button(shell, SWT.BORDER | SWT.RADIO | SWT.CENTER);
+		btnTomorrow.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnTomorrow.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String today = java.time.LocalDate.now().plusDays(1).toString();
-				System.out.println(today);
 				try {
 					String queryResults = service.getTimes(today);
 					String[] sessionsArr = queryResults.split(";");
@@ -223,24 +227,31 @@ public class ServerGui {
 			}
 		});
 		btnTomorrow.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnTomorrow.setBounds(406, 77, 134, 26);
+		btnTomorrow.setBounds(391, 74, 152, 32);
 		btnTomorrow.setText("Tomorrow");
 		
 		Button btnReport = new Button(shell, SWT.NONE);
+		btnReport.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnReport.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					service.createFile();
+					JOptionPane.showMessageDialog(null, "WeekReport.txt created/updated", "Updated", JOptionPane.INFORMATION_MESSAGE);
 				} catch (SQLException | IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
 		btnReport.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		btnReport.setText("Export report");
-		btnReport.setBounds(627, 52, 143, 32);
+		btnReport.setText("Previous Week Report");
+		btnReport.setBounds(625, 74, 217, 32);
 
+	}
+	public Color getShellBackground() {
+		return shell.getBackground();
+	}
+	public void setShellBackground(Color background) {
+		shell.setBackground(background);
 	}
 }

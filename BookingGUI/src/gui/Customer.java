@@ -3,7 +3,6 @@ package gui;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 
 import org.eclipse.swt.SWT;
@@ -20,8 +19,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class Client {
-	static Interface service;
+public class Customer {
+	static IBooking service;
 
 	protected Shell shell;
 	private Table tblShowTimes;
@@ -33,8 +32,8 @@ public class Client {
 	 */
 	public static void main(String[] args) {
 		try {
-			service = (Interface) Naming.lookup("rmi://localhost:1099/passkey");
-			Client window = new Client();
+			service = (IBooking) Naming.lookup("rmi://localhost:1099/sky");
+			Customer window = new Customer();
 			window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -61,30 +60,34 @@ public class Client {
 	 */
 	protected void createContents() {
 		shell = new Shell();
+		shell.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		shell.setSize(1000, 700);
 		shell.setText("Atmosphere Plunge Skydiving");
-		
 		
 		DateTime dateTime = new DateTime(shell, SWT.BORDER);
 		dateTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		dateTime.setBounds(181, 193, 135, 27);
 		
 		Label lblBookingSystem = new Label(shell, SWT.NONE);
+		lblBookingSystem.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		lblBookingSystem.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		lblBookingSystem.setFont(SWTResourceManager.getFont("Segoe UI", 28, SWT.NORMAL));
-		lblBookingSystem.setBounds(312, 25, 346, 73);
-		lblBookingSystem.setText("Booking system");
+		lblBookingSystem.setBounds(189, 20, 601, 73);
+		lblBookingSystem.setText("Atmosphere Plunge Booking ");
 		
 		Label lblDate = new Label(shell, SWT.NONE);
+		lblDate.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblDate.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblDate.setBounds(66, 193, 65, 33);
 		lblDate.setText("Date");
 		
 		Label lblTimesAvailabile = new Label(shell, SWT.NONE);
+		lblTimesAvailabile.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
 		lblTimesAvailabile.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblTimesAvailabile.setBounds(66, 290, 150, 27);
 		lblTimesAvailabile.setText("Times Availabile");
 		
-		tblShowTimes = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		tblShowTimes = new Table(shell, SWT.FULL_SELECTION);
 		tblShowTimes.setBounds(66, 323, 863, 215);
 		tblShowTimes.setHeaderVisible(true);
 		tblShowTimes.setLinesVisible(true);
@@ -113,12 +116,23 @@ public class Client {
 		tblclmnPrice.setWidth(93);
 		tblclmnPrice.setText("Price ( $ )");
 		
+		txtNumPpl = new Text(shell, SWT.BORDER);
+		txtNumPpl.setText("1");
+		txtNumPpl.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		txtNumPpl.setBounds(167, 576, 65, 33);
+		
+		Label lblPeopleX = new Label(shell, SWT.NONE);
+		lblPeopleX.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_BACKGROUND_GRADIENT));
+		lblPeopleX.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblPeopleX.setBounds(66, 576, 95, 26);
+		lblPeopleX.setText("People    x ");
+		
 		Button btnCheckAvalibility = new Button(shell, SWT.NONE);
+		btnCheckAvalibility.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnCheckAvalibility.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnCheckAvalibility.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//is there a method for this?
 				String date = dateTime.getYear() + "-" + "0" + (dateTime.getMonth() + 1) + "-" + dateTime.getDay();
 
 		        try {
@@ -136,27 +150,15 @@ public class Client {
 								column++;
 							}
 						}
-						
 					}
-					
 				} catch (RemoteException | SQLException e1) { e1.printStackTrace(); }
 			}
 		});
 		btnCheckAvalibility.setBounds(406, 193, 174, 33);
 		btnCheckAvalibility.setText("Check Availability");
 
-		
-		txtNumPpl = new Text(shell, SWT.BORDER);
-		txtNumPpl.setText("1");
-		txtNumPpl.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		txtNumPpl.setBounds(167, 576, 65, 33);
-		
-		Label lblPeopleX = new Label(shell, SWT.NONE);
-		lblPeopleX.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		lblPeopleX.setBounds(66, 576, 95, 26);
-		lblPeopleX.setText("People    x ");
-		
 		Button btnBookTime = new Button(shell, SWT.NONE);
+		btnBookTime.setForeground(SWTResourceManager.getColor(0, 102, 51));
 		btnBookTime.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -170,16 +172,11 @@ public class Client {
 						else
 							JOptionPane.showMessageDialog(null, "There are not enough places in this session", "No Space", JOptionPane.ERROR_MESSAGE);
 					} catch (RemoteException | SQLException e1) { e1.printStackTrace(); }
-					
 				}
-	
 			}
-
 		});
-		
 		btnBookTime.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		btnBookTime.setBounds(261, 576, 126, 33);
 		btnBookTime.setText("Book Time");
-
 	}
 }
