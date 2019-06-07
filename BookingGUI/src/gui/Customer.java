@@ -97,23 +97,23 @@ public class Customer {
 		tblclmnId.setText("ID");
 		
 		TableColumn tblclmnDate = new TableColumn(tblShowTimes, SWT.NONE);
-		tblclmnDate.setWidth(127);
+		tblclmnDate.setWidth(175);
 		tblclmnDate.setText("Date");
 		
 		TableColumn tblclmnTime = new TableColumn(tblShowTimes, SWT.NONE);
-		tblclmnTime.setWidth(100);
+		tblclmnTime.setWidth(165);
 		tblclmnTime.setText("Time");
 		
 		TableColumn tblclmHeight = new TableColumn(tblShowTimes, SWT.NONE);
-		tblclmHeight.setWidth(146);
+		tblclmHeight.setWidth(199);
 		tblclmHeight.setText("Jump Height ( km ) ");
 		
 		TableColumn tblclmnSpaces = new TableColumn(tblShowTimes, SWT.NONE);
-		tblclmnSpaces.setWidth(138);
+		tblclmnSpaces.setWidth(164);
 		tblclmnSpaces.setText("Spaces available");
 		
 		TableColumn tblclmnPrice = new TableColumn(tblShowTimes, SWT.NONE);
-		tblclmnPrice.setWidth(93);
+		tblclmnPrice.setWidth(159);
 		tblclmnPrice.setText("Price ( $ )");
 		
 		txtNumPpl = new Text(shell, SWT.BORDER);

@@ -86,19 +86,19 @@ public class Company {
 		tableColumn.setResizable(false);
 		
 		TableColumn tableColumn_1 = new TableColumn(tblShowSessions, SWT.NONE);
-		tableColumn_1.setWidth(127);
+		tableColumn_1.setWidth(176);
 		tableColumn_1.setText("Date");
 		
 		TableColumn tableColumn_2 = new TableColumn(tblShowSessions, SWT.NONE);
-		tableColumn_2.setWidth(100);
+		tableColumn_2.setWidth(172);
 		tableColumn_2.setText("Time");
 		
 		TableColumn tableColumn_3 = new TableColumn(tblShowSessions, SWT.NONE);
-		tableColumn_3.setWidth(146);
+		tableColumn_3.setWidth(234);
 		tableColumn_3.setText("Jump Height ( km ) ");
 		
 		TableColumn tableColumn_4 = new TableColumn(tblShowSessions, SWT.NONE);
-		tableColumn_4.setWidth(138);
+		tableColumn_4.setWidth(224);
 		tableColumn_4.setText("Spaces available");
 		
 		Button btnBook = new Button(shell, SWT.NONE);
