@@ -1,5 +1,5 @@
 # Java Assignment 2
-## Booking_System
+## Booking System
 
 This is a assignment written in Java using Java EE concepts.
 
